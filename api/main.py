@@ -1,4 +1,6 @@
-from flask import Flask
+from flask import Flask, request
+import classes.processing as processing
+import json
 
 app = Flask(__name__)
 
@@ -8,4 +10,6 @@ def hello_world():
 
 @app.route("/check", methods=["POST"])
 def check():
-    return "<p>Hello from POST</p>"
+    postData = request.get_json()
+    process = processing.FeedProcessing(postData["url"])
+    return process.process() 
