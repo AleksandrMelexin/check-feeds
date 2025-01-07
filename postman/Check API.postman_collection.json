@@ -1,0 +1,27 @@
+{
+	"info": {
+		"_postman_id": "c743728f-0a34-4b93-8442-0206c644b6ba",
+		"name": "Check API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40845974"
+	},
+	"item": [
+		{
+			"name": "Check POST",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{service_url}}/check",
+					"host": [
+						"{{service_url}}"
+					],
+					"path": [
+						"check"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
