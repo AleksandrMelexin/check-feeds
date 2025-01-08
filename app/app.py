@@ -14,8 +14,8 @@ def hello_world():
 
 @app.route("/check", methods=["POST"])
 def check():
-    postData = request.get_json()
-    process = processing.FeedProcessing(postData["url"])
+    formData = request.form.to_dict()
+    process = processing.FeedProcessing(formData["inputUrl"])
     return process.process()
 
 if __name__ == '__main__':
