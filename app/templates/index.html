@@ -21,7 +21,7 @@
     <div class="row">
         <div class="col-2"></div>
         <div class="col-8">
-            <form action="/check" method="POST">
+            <form action="/" method="POST">
                 <div class="mb-3">
                   <label for="inputUrl" class="form-label">Введите URL фида</label>
                   <input name="inputUrl" type="url" class="form-control" id="inputUrl" aria-describedby="urlHelp">
@@ -35,6 +35,39 @@
         </div>
         <div class="col-2"></div>
     </div>
+</div>
+<hr class="m-5"/>
+<div class="container text-center">
+<table class="table table-striped">
+    <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Имя</th>
+          <th scope="col">Картинки</th>
+          <th scope="col">Ошибки</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in json_data %}
+            <tr>
+                <th scope="row">{{ item.id }}</th>
+                <td>{{ item.name }}</td>
+                <td>
+                    {% for picture in item.pictures %}
+                        <img src="{{ picture }}" alt="picture" class="img-thumbnail" style="width: 100px; height: auto;">
+                    {% endfor %}
+                </td>
+                <td>
+                    {% for error in item.errors %}
+                        <div class="alert alert-danger" role="alert">
+                            {{ error }}
+                        </div>
+                    {% endfor %}
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
 </div>
 
 <!-- Bootstrap JS -->
