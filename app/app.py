@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 import classes.processing as processing
 import json
 import os
@@ -9,7 +9,8 @@ app = Flask(__name__)
 
 @app.route("/", methods=["GET"])
 def hello_world():
-    return "<p>Hello, World!</p>"
+    json_data = {}
+    return render_template('index.html', json_data=json_data)
 
 @app.route("/check", methods=["POST"])
 def check():
