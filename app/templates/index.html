@@ -37,6 +37,7 @@
     </div>
 </div>
 <hr class="m-5"/>
+{% if json_data|length > 0 %}
 <div class="container text-center">
 <table class="table table-striped">
     <thead>
@@ -69,6 +70,7 @@
     </tbody>
 </table>
 </div>
+{% endif %}
 
 <!-- Bootstrap JS -->
 <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
