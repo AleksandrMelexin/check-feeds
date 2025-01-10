@@ -11,7 +11,7 @@
             "module": "flask",
             "env": {
                 "FLASK_APP": "app.py",
-                "FLASK_DEBUG": "1"
+                "CHECK_FEEDS_IS_DEBUG": "1"
             },
             "args": [
                 "run",
