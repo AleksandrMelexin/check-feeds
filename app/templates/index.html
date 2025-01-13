@@ -37,7 +37,9 @@
     </div>
 </div>
 <hr class="m-5"/>
-{% if json_data|length > 0 %}
+{% if json_data is mapping %}
+{{json_data.global-error}}
+{% elif json_data|length > 0 %}
 <div class="container text-center">
 <table class="table table-striped">
     <thead>
