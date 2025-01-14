@@ -1,9 +1,7 @@
 from flask import Flask, request, render_template
 import classes.processing as processing
-import json
 import os
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import DeclarativeBase
 
 isDebug = os.getenv("CHECK_FEEDS_IS_DEBUG") or True
 if isDebug == "0":
