@@ -37,8 +37,14 @@
     </div>
 </div>
 <hr class="m-5"/>
-{% if json_data is mapping %}
-{{json_data.global-error}}
+{% if json_data.globalError is defined %}
+    <div class="alert alert-danger m-5 text-center" role="alert">
+        {{json_data.globalError}}
+    </div>
+{% elif json_data.globalWarning is defined %}
+    <div class="alert alert-warning m-5 text-center" role="alert">
+        {{ json_data.globalWarning }}
+    </div>
 {% elif json_data|length > 0 %}
 <div class="container text-center">
 <table class="table table-striped">
@@ -72,6 +78,10 @@
     </tbody>
 </table>
 </div>
+{% else %}
+    <div class="alert alert-info m-5 text-center" role="alert">
+        По введённому URL должен распологаться файл формата YML (Yandex Market Language)
+    </div>
 {% endif %}
 
 <!-- Bootstrap JS -->
