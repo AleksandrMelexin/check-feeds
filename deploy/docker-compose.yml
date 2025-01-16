@@ -1,0 +1,58 @@
+name: check-feeds
+
+services:
+  db:
+    container_name: db
+    image: postgres:14.8-alpine3.18
+    command:
+      - postgres
+      - -c
+      - config_file=/etc/postgresql/postgresql.conf
+      - -c
+      - hba_file=/etc/postgresql/pg_hba.conf
+    environment:
+      POSTGRES_DB: ${PG_DB_NAME}
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_su_pwd
+      PG_DBO_PWD_FILE: /run/secrets/db_pwd
+      PGDATA: /var/lib/postgresql/data/pgdata
+      PGTZ: Europe/Moscow
+      TZ: Europe/Moscow
+    volumes:
+      - ./db/initdb-scripts:/docker-entrypoint-initdb.d
+      - ./db/container-data:/var/lib/postgresql/data
+      - ./db/container-conf:/etc/postgresql
+    ports:
+      - 5424:5432
+    restart: unless-stopped
+    secrets:
+      - db_pwd
+      - db_su_pwd
+  web:
+    container_name: web
+    build: ../app
+    environment:
+      DB_TYPE: postgres
+      DB_NAME: check_feeds
+      DB_HOST: db:5432
+      DB_PASSWORD: enter_here
+      DB_USERNAME: check_user
+      FLASK_PORT: 4000
+      CHECK_FEEDS_IS_DEBUG: 1
+    depends_on:
+      - db
+    restart: unless-stopped
+    ports:
+      - "8000:4000"
+
+  adminer:
+    image: adminer
+    container_name: adminer
+    restart: always
+    ports:
+      - 8080:8080
+
+secrets:
+  db_pwd:
+    file: ./secrets/db_pwd
+  db_su_pwd:
+    file: ./secrets/db_su_pwd

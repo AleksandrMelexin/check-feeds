@@ -11,8 +11,11 @@ else:
 
 app = Flask(__name__)
 db = SQLAlchemy()
-basedir = os.path.abspath(os.path.dirname(__file__))
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'db', 'db.sqlite')
+if os.getenv("DB_TYPE") == "postgres":
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv("DB_USERNAME")}:{os.getenv("DB_PASSWORD")}@{os.getenv("DB_HOST")}/{os.getenv("DB_NAME")}"
+else:
+    basedir = os.path.abspath(os.path.dirname(__file__))
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + os.path.join(basedir, 'db', 'db.sqlite')
 db.init_app(app)
      
 @app.route("/", methods=["GET", "POST"])
@@ -31,4 +34,4 @@ def check():
     return process.process()
 
 if __name__ == "__main__":
-    app.run(debug=isDebug)
+    app.run(debug=isDebug, host="0.0.0.0", port=int(os.getenv("FLASK_PORT")))
