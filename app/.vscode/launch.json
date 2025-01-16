@@ -10,6 +10,11 @@
             "request": "launch",
             "module": "flask",
             "env": {
+                "DB_TYPE": "postgres",
+                "DB_NAME": "check_feeds",
+                "DB_HOST": "localhost:5424",
+                "DB_PASSWORD": "enter_here",
+                "DB_USERNAME": "check_user",
                 "FLASK_APP": "app.py",
                 "CHECK_FEEDS_IS_DEBUG": "1"
             },
