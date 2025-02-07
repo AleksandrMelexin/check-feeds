@@ -1,8 +1,10 @@
 from datetime import datetime, timezone
-from typing import List
-from sqlalchemy import Integer, String, ForeignKey
+
+from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column, relationship, WriteOnlyMapped
+
 import app
+
 
 class Feeds(app.db.Model):
     __tablename__ = "feeds"
@@ -10,6 +12,7 @@ class Feeds(app.db.Model):
     url: Mapped[str] = mapped_column(unique=False)
     date_check: Mapped[datetime] = mapped_column(index=False, default=lambda: datetime.now(timezone.utc))
     check_feeds: WriteOnlyMapped['CheckFeeds'] = relationship(back_populates='feeds')
+
 
 class CheckFeeds(app.db.Model):
     __tablename__ = "check_results"

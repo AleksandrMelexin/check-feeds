@@ -1,89 +1,92 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Check Feeds</title>
-	<!-- Bootstrap CSS -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Feeds</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/logo.ico') }}">
 </head>
 <body>
 <!-- Header -->
 <header>
-	<nav class="navbar navbar-expand-lg navbar-light bg-light">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Проверка фидов </a>
-		</div>
-	</nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Проверка фидов </a>
+        </div>
+    </nav>
 </header>
 
 <div class="container text-center">
     <div class="row">
         <div class="col-2"></div>
         <div class="col-8">
-            <form action="/" method="POST">
-                <div class="mb-3">
-                  <label for="inputUrl" class="form-label">Введите URL фида</label>
-                  <input name="inputUrl" type="url" class="form-control" id="inputUrl" aria-describedby="urlHelp">
-                  <div class="invalid-feedback">
+<!--            <div class="mb-3">-->
+<!--                <input class="form-control col-2" type="file" id="formFile">-->
+<!--            </div>-->
+            <div class="mb-3">
+                <label for="inputUrl" class="form-label">Введите URL фида</label>
+                <input name="inputUrl" type="url" class="form-control" id="inputUrl" aria-describedby="urlHelp">
+                <div class="invalid-feedback">
                     Введите корректный Url!
-                  </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Проверить</button>
-            </form>
+            </div>
+            <button type="submit" class="btn btn-primary col-2">Проверить</button>
+            <button type="button" class="btn btn-primary col-2" onclick="getReport()">Отчёт</button>
+
+
         </div>
-        <div class="col-2"></div>
     </div>
-</div>
-<hr class="m-5"/>
-{% if json_data.globalError is defined %}
+    <hr class="m-5"/>
+    {% if json_data.globalError is defined %}
     <div class="alert alert-danger m-5 text-center" role="alert">
         {{json_data.globalError}}
     </div>
-{% elif json_data.globalWarning is defined %}
+    {% elif json_data.globalWarning is defined %}
     <div class="alert alert-warning m-5 text-center" role="alert">
         {{ json_data.globalWarning }}
     </div>
-{% elif json_data|length > 0 %}
-<div class="container text-center">
-<table class="table table-striped">
-    <thead>
-        <tr>
-          <th scope="col">ID</th>
-          <th scope="col">Имя</th>
-          <th scope="col">Картинки</th>
-          <th scope="col">Ошибки</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for item in json_data %}
+    {% elif json_data|length > 0 %}
+    <div id="feed-data" class="container text-center">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Имя</th>
+                <th scope="col">Картинки</th>
+                <th scope="col">Ошибки</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in json_data %}
             <tr>
                 <th scope="row">{{ item.id }}</th>
                 <td>{{ item.name }}</td>
                 <td>
                     {% for picture in item.pictures %}
-                        <img src="{{ picture }}" alt="picture" class="img-thumbnail" style="width: 100px; height: auto;">
+                    <img src="{{ picture }}" alt="picture" class="img-thumbnail" style="width: 100px; height: auto;">
                     {% endfor %}
                 </td>
                 <td>
                     {% for error in item.errors %}
-                        <div class="alert alert-danger" role="alert">
-                            {{ error }}
-                        </div>
+                    <div class="alert alert-danger" role="alert">
+                        {{ error }}
+                    </div>
                     {% endfor %}
                 </td>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
-</div>
-{% else %}
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
     <div class="alert alert-info m-5 text-center" role="alert">
         По введённому URL должен распологаться файл формата YML (Yandex Market Language)
     </div>
-{% endif %}
+    {% endif %}
 
-<!-- Bootstrap JS -->
-<script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <!-- JS -->
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/report.js') }}"></script>
 </body>
 </html>
